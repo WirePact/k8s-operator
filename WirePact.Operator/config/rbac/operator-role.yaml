@@ -16,11 +16,11 @@ rules:
   - ''
   resources:
   - deployments
-  - secrets
-  - configmaps
+  - events
   verbs:
   - create
   - get
+  - list
   - update
 - apiGroups:
   - ''
@@ -36,20 +36,26 @@ rules:
   - update
   - delete
 - apiGroups:
+  - ''
+  resources:
+  - secrets
+  - configmaps
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
   - wirepact.ch
   resources:
   - credentialtranslators
   verbs:
   - get
 - apiGroups:
-  - ''
+  - coordination.k8s.io
   resources:
-  - events
+  - leases
   verbs:
-  - create
-  - get
-  - list
-  - update
+  - '*'
 - apiGroups:
   - wirepact.ch
   resources:
