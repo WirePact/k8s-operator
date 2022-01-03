@@ -6,6 +6,12 @@ rules:
 - apiGroups:
   - wirepact.ch
   resources:
+  - credentialtranslators
+  verbs:
+  - get
+- apiGroups:
+  - wirepact.ch
+  resources:
   - pkis
   verbs:
   - create
@@ -38,18 +44,12 @@ rules:
 - apiGroups:
   - ''
   resources:
-  - secrets
   - configmaps
+  - secrets
   verbs:
   - create
   - get
   - update
-- apiGroups:
-  - wirepact.ch
-  resources:
-  - credentialtranslators
-  verbs:
-  - get
 - apiGroups:
   - coordination.k8s.io
   resources:
