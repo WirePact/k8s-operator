@@ -1,0 +1,58 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: pkis.wirepact.ch
+spec:
+  group: wirepact.ch
+  names:
+    kind: Pki
+    listKind: PkiList
+    plural: pkis
+    singular: pki
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - description: Shows the actual address of the pki (service name with namespace).
+      jsonPath: .status.dnsAddress
+      name: DnsAddress
+      priority: 0
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          status:
+            description: Status object for the entity.
+            properties:
+              dnsAddress:
+                description: Shows the actual address of the pki (service name with namespace).
+                type: string
+            type: object
+          spec:
+            description: Specification of the kubernetes object.
+            properties:
+              image:
+                description: >-
+                  The container image that shall be used to start the pki deployment.
+
+                  Defaults to the k8s-pki image of WirePact with latest tag.
+                type: string
+              port:
+                description: >-
+                  The port on which the pki endpoints are reachable.
+
+                  Defaults to 8080.
+                format: int32
+                type: integer
+              secretName:
+                description: >-
+                  The name of the Kubernetes secret that is used to store key material for the CA.
+
+                  Defaults to `wirepact-pki-ca`.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

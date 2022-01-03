@@ -1,0 +1,116 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: meshparticipants.wirepact.ch
+spec:
+  group: wirepact.ch
+  names:
+    kind: MeshParticipant
+    listKind: MeshParticipantList
+    plural: meshparticipants
+    singular: meshparticipant
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: >-
+        Name reference to the V1Deployment that deploys the participant.
+
+        The deployment will be updated and gets injected sidecars for the mesh to function.
+
+        A valid participant must adhere to the HTTP_PROXY environment variable.
+      jsonPath: .spec.deployment
+      name: Deployment
+      priority: 0
+      type: string
+    - description: >-
+        Name reference to the V1Service that makes the participant
+
+        available for communication.
+      jsonPath: .spec.service
+      name: Service
+      priority: 0
+      type: string
+    - description: >-
+        Defines the V1Alpha1CredentialTranslator that shall be used
+
+        to translate the ingress/egress communication for the authentication mesh.
+
+        If no translator is available, the object is rejected.
+      jsonPath: .spec.translator
+      name: Translator
+      priority: 0
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          status:
+            description: Status object for the entity.
+            properties:
+              ingressPort:
+                description: >-
+                  The port that listens for incoming communication.
+
+                  This is set via "INGRESS_PORT" environment variable.
+                format: int32
+                type: integer
+              egressPort:
+                description: >-
+                  The port that listens for outgoing communication.
+
+                  This is set via "EGRESS_PORT" environment variable.
+                format: int32
+                type: integer
+              translatorIngressPort:
+                description: The port that the translator listens for incoming requests.
+                format: int32
+                type: integer
+              translatorEgressPort:
+                description: The port that the translator listens for outgoing requests.
+                format: int32
+                type: integer
+            type: object
+          spec:
+            description: Specification of the kubernetes object.
+            properties:
+              deployment:
+                description: >-
+                  Name reference to the V1Deployment that deploys the participant.
+
+                  The deployment will be updated and gets injected sidecars for the mesh to function.
+
+                  A valid participant must adhere to the HTTP_PROXY environment variable.
+                type: string
+              targetPort:
+                description: The port of the deployed application that is the original target port.
+                format: int32
+                type: integer
+              service:
+                description: >-
+                  Name reference to the V1Service that makes the participant
+
+                  available for communication.
+                type: string
+              translator:
+                description: >-
+                  Defines the V1Alpha1CredentialTranslator that shall be used
+
+                  to translate the ingress/egress communication for the authentication mesh.
+
+                  If no translator is available, the object is rejected.
+                type: string
+              env:
+                description: Defines the environment variables that are passed to the translator for configuration.
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              args:
+                description: Defines additional arguments that are passed to the translator for configuration.
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

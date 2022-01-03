@@ -1,0 +1,8 @@
+apiVersion: wirepact.ch/v1alpha1
+kind: CredentialTranslator
+
+metadata:
+  name: keycloak-oidc
+
+spec:
+  image: ghcr.io/wirepact/k8s-keycloak-oidc-translator:latest
