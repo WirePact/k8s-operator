@@ -9,7 +9,7 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "echo \"BUILD_VERSION=${nextRelease.version}\" >> $GITHUB_ENV"
+        "prepareCmd": "echo \"BUILD_VERSION=${nextRelease.version}\" >> $GITHUB_ENV"
       }
     ],
     [
