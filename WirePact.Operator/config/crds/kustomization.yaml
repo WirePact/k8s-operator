@@ -1,8 +1,8 @@
 commonLabels:
   operator-element: crd
 resources:
-- credentialtranslators_wirepact_ch.yaml
-- pkis_wirepact_ch.yaml
 - meshparticipants_wirepact_ch.yaml
+- pkis_wirepact_ch.yaml
+- credentialtranslators_wirepact_ch.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
