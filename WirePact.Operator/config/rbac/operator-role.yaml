@@ -6,27 +6,22 @@ rules:
 - apiGroups:
   - wirepact.ch
   resources:
-  - credentialtranslators
-  verbs:
-  - get
-- apiGroups:
-  - wirepact.ch
-  resources:
   - pkis
   verbs:
   - create
   - get
+  - list
   - watch
 - apiGroups:
   - apps
   - ''
   resources:
   - deployments
-  - events
+  - secrets
+  - configmaps
   verbs:
   - create
   - get
-  - list
   - update
 - apiGroups:
   - ''
@@ -42,20 +37,28 @@ rules:
   - update
   - delete
 - apiGroups:
+  - wirepact.ch
+  resources:
+  - credentialtranslators
+  verbs:
+  - get
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - meshparticipants
+  verbs:
+  - get
+  - watch
+  - update
+- apiGroups:
   - ''
   resources:
-  - configmaps
-  - secrets
+  - events
   verbs:
   - create
   - get
+  - list
   - update
-- apiGroups:
-  - coordination.k8s.io
-  resources:
-  - leases
-  verbs:
-  - '*'
 - apiGroups:
   - wirepact.ch
   resources:
@@ -76,6 +79,14 @@ rules:
   - ''
   resources:
   - services/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - meshparticipants/status
   verbs:
   - get
   - patch

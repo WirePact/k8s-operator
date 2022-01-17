@@ -23,6 +23,7 @@ namespace WirePact.Operator.Controller;
     typeof(V1Service),
     typeof(V1ConfigMap),
     Verbs = RbacVerb.Get | RbacVerb.Create | RbacVerb.Update)]
+[EntityRbac(typeof(V1Alpha1MeshParticipant), Verbs = RbacVerb.Get | RbacVerb.Watch | RbacVerb.Update)]
 public class ParticipantController : IResourceController<V1Alpha1MeshParticipant>
 {
     private static readonly Random Random = new();

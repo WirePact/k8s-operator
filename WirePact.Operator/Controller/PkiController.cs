@@ -17,7 +17,7 @@ using WirePact.Operator.Entities;
 
 namespace WirePact.Operator.Controller;
 
-[EntityRbac(typeof(V1Alpha1Pki), Verbs = RbacVerb.Get | RbacVerb.Watch | RbacVerb.Create)]
+[EntityRbac(typeof(V1Alpha1Pki), Verbs = RbacVerb.Get | RbacVerb.List | RbacVerb.Watch | RbacVerb.Create)]
 [EntityRbac(typeof(V1Deployment), typeof(V1Service), Verbs = RbacVerb.Get | RbacVerb.Create)]
 [EntityRbac(typeof(V1Secret), Verbs = RbacVerb.Get | RbacVerb.Create | RbacVerb.Update)]
 internal class PkiController : IResourceController<V1Alpha1Pki>, IHostedService
