@@ -5,6 +5,7 @@
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>WirePact.Operator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
