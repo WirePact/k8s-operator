@@ -8,7 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{1987B389
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{5A9840EF-BCDF-4272-B035-47F5C6D65826}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WirePact.Operator", "WirePact.Operator\WirePact.Operator.csproj", "{AD5C5388-F7A4-4C23-9928-FB7E8A8F2D81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WirePact.Operator__OLD", "WirePact.Operator__OLD\WirePact.Operator__OLD.csproj", "{AD5C5388-F7A4-4C23-9928-FB7E8A8F2D81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Operator", "Operator\Operator.csproj", "{1037EC15-7882-44AE-BF27-E92285828801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,11 +19,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AD5C5388-F7A4-4C23-9928-FB7E8A8F2D81} = {269D0602-3DAE-4473-A1AC-B7E0BE8FABBC}
+		{1037EC15-7882-44AE-BF27-E92285828801} = {269D0602-3DAE-4473-A1AC-B7E0BE8FABBC}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AD5C5388-F7A4-4C23-9928-FB7E8A8F2D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD5C5388-F7A4-4C23-9928-FB7E8A8F2D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD5C5388-F7A4-4C23-9928-FB7E8A8F2D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD5C5388-F7A4-4C23-9928-FB7E8A8F2D81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1037EC15-7882-44AE-BF27-E92285828801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1037EC15-7882-44AE-BF27-E92285828801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1037EC15-7882-44AE-BF27-E92285828801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1037EC15-7882-44AE-BF27-E92285828801}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
