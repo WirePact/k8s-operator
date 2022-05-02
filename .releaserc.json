@@ -15,19 +15,19 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "cd WirePact.Operator && dotnet build --configuration Release && cd ../"
+        "prepareCmd": "cd Operator && dotnet build --configuration Release && cd ../"
       }
     ],
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "cd WirePact.Operator/config/install && ../../../kustomize edit set image operator=ghcr.io/wirepact/k8s-operator:${nextRelease.version} && cd ../../.."
+        "prepareCmd": "cd Operator/config/install && ../../../kustomize edit set image operator=ghcr.io/wirepact/k8s-operator:${nextRelease.version} && cd ../../.."
       }
     ],
     [
       "@semantic-release/git",
       {
-        "assets": ["WirePact.Operator/config/**/*"]
+        "assets": ["Operator/config/**/*"]
       }
     ]
   ],
