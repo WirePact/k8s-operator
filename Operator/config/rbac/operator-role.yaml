@@ -1,0 +1,93 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: operator-role
+rules:
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - credentialtranslators
+  verbs:
+  - create
+  - get
+  - list
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - pkis
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  - ''
+  resources:
+  - deployments
+  - services
+  - configmaps
+  - secrets
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - meshparticipants
+  verbs:
+  - get
+  - watch
+  - update
+- apiGroups:
+  - ''
+  - rbac.authorization.k8s.io
+  resources:
+  - serviceaccounts
+  - roles
+  - rolebindings
+  verbs:
+  - create
+  - get
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - get
+  - list
+  - update
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - pkis/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ''
+  resources:
+  - services/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - meshparticipants/status
+  verbs:
+  - get
+  - patch
+  - update

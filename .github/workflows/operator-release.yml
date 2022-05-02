@@ -48,7 +48,7 @@ jobs:
         if: ${{env.BUILD_VERSION != ''}}
         with:
           context: ./
-          file: ./WirePact.Operator/Dockerfile
+          file: ./Operator/Dockerfile
           push: true
           build-args: |
             BUILD_VERSION=${{ env.BUILD_VERSION }}
