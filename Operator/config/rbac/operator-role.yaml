@@ -15,41 +15,32 @@ rules:
 - apiGroups:
   - apps
   - ''
+  - rbac.authorization.k8s.io
   resources:
   - deployments
-  - secrets
-  - configmaps
+  - services
+  - serviceaccounts
+  - roles
+  - rolebindings
   verbs:
   - create
   - get
-  - update
 - apiGroups:
   - ''
-  - admissionregistration.k8s.io
   resources:
-  - services
-  - validatingwebhookconfigurations
-  - mutatingwebhookconfigurations
+  - secrets
   verbs:
   - create
   - get
-  - patch
   - update
-  - delete
 - apiGroups:
   - wirepact.ch
   resources:
   - credentialtranslators
   verbs:
+  - create
   - get
-- apiGroups:
-  - wirepact.ch
-  resources:
-  - meshparticipants
-  verbs:
-  - get
-  - watch
-  - update
+  - list
 - apiGroups:
   - ''
   resources:
@@ -79,14 +70,6 @@ rules:
   - ''
   resources:
   - services/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - wirepact.ch
-  resources:
-  - meshparticipants/status
   verbs:
   - get
   - patch
