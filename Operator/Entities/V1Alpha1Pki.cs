@@ -50,5 +50,10 @@ public class V1Alpha1Pki : CustomKubernetesEntity<V1Alpha1Pki.V1Alpha1PkiSpec, V
         /// </summary>
         [AdditionalPrinterColumn]
         public string DnsAddress { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Shows the namespace in which the deployment for the PKI is.
+        /// </summary>
+        public string? Namespace { get; set; }
     }
 }

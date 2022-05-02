@@ -6,6 +6,14 @@ rules:
 - apiGroups:
   - wirepact.ch
   resources:
+  - credentialtranslators
+  verbs:
+  - create
+  - get
+  - list
+- apiGroups:
+  - wirepact.ch
+  resources:
   - pkis
   verbs:
   - create
@@ -15,19 +23,10 @@ rules:
 - apiGroups:
   - apps
   - ''
-  - rbac.authorization.k8s.io
   resources:
   - deployments
   - services
-  - serviceaccounts
-  - roles
-  - rolebindings
-  verbs:
-  - create
-  - get
-- apiGroups:
-  - ''
-  resources:
+  - configmaps
   - secrets
   verbs:
   - create
@@ -36,11 +35,21 @@ rules:
 - apiGroups:
   - wirepact.ch
   resources:
-  - credentialtranslators
+  - meshparticipants
+  verbs:
+  - get
+  - watch
+  - update
+- apiGroups:
+  - ''
+  - rbac.authorization.k8s.io
+  resources:
+  - serviceaccounts
+  - roles
+  - rolebindings
   verbs:
   - create
   - get
-  - list
 - apiGroups:
   - ''
   resources:
@@ -70,6 +79,14 @@ rules:
   - ''
   resources:
   - services/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - wirepact.ch
+  resources:
+  - meshparticipants/status
   verbs:
   - get
   - patch

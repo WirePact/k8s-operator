@@ -24,7 +24,7 @@ public class
         /// <summary>
         /// The container image to be used.
         /// </summary>
-        [AdditionalPrinterColumn(Priority = 1)]
+        [AdditionalPrinterColumn]
         public string Image { get; set; } = string.Empty;
     }
 }

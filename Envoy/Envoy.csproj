@@ -15,26 +15,26 @@
     <PackageReference Include="Grpc.Tools" Version="2.45.0" PrivateAssets="All" />
   </ItemGroup>
 
-  <Target Name="Protobuf_Override" BeforeTargets="_Protobuf_CoreCompile">
-    <PropertyGroup>
-      <Protobuf_StandardImportsPath>$(Protobuf_StandardImportsPath);@(ProtoRoot)</Protobuf_StandardImportsPath>
-    </PropertyGroup>
-  </Target>
+<!--  <Target Name="Protobuf_Override" BeforeTargets="_Protobuf_CoreCompile">-->
+<!--    <PropertyGroup>-->
+<!--      <Protobuf_StandardImportsPath>$(Protobuf_StandardImportsPath);@(ProtoRoot)</Protobuf_StandardImportsPath>-->
+<!--    </PropertyGroup>-->
+<!--  </Target>-->
   
-  <ItemGroup>
-    <ProtoRoot Include="../external/envoy/api" />
-    <ProtoRoot Include="../external/xds" />
-    <ProtoRoot Include="../external/googleapis" />
-    <ProtoRoot Include="../external/protoc-gen-validate" />
-    <ProtoRoot Include="../external/opencensus/src" />
-    <ProtoRoot Include="../external/opentelemetry" />
+<!--  <ItemGroup>-->
+<!--    <ProtoRoot Include="../external/envoy/api" />-->
+<!--    <ProtoRoot Include="../external/xds" />-->
+<!--    <ProtoRoot Include="../external/googleapis" />-->
+<!--    <ProtoRoot Include="../external/protoc-gen-validate" />-->
+<!--    <ProtoRoot Include="../external/opencensus/src" />-->
+<!--    <ProtoRoot Include="../external/opentelemetry" />-->
 
-    <Protobuf Include="../external/xds/**/*.proto" GrpcServices="None" />
-    <Protobuf Include="../external/envoy/api/envoy/config/**/*.proto" GrpcServices="None" />
-<!--    <Protobuf Include="../external/googleapis/google/**/*.proto" GrpcServices="None" />-->
-    <Protobuf Include="../external/opencensus/**/*.proto" GrpcServices="None" />
-    <Protobuf Include="../external/opentelemetry/**/*.proto" GrpcServices="None" />
-    <Protobuf Include="../external/protoc-gen-validate/**/*.proto" GrpcServices="None" />
-  </ItemGroup>
+<!--    <Protobuf Include="../external/xds/**/*.proto" GrpcServices="None" />-->
+<!--    <Protobuf Include="../external/envoy/api/envoy/config/**/*.proto" GrpcServices="None" />-->
+<!--&lt;!&ndash;    <Protobuf Include="../external/googleapis/google/**/*.proto" GrpcServices="None" />&ndash;&gt;-->
+<!--    <Protobuf Include="../external/opencensus/**/*.proto" GrpcServices="None" />-->
+<!--    <Protobuf Include="../external/opentelemetry/**/*.proto" GrpcServices="None" />-->
+<!--    <Protobuf Include="../external/protoc-gen-validate/**/*.proto" GrpcServices="None" />-->
+<!--  </ItemGroup>-->
 
 </Project>

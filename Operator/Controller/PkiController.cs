@@ -34,7 +34,13 @@ internal class PkiController : IResourceController<V1Alpha1Pki>
 
     public async Task<ResourceControllerResult?> ReconcileAsync(V1Alpha1Pki pki)
     {
-        var @namespace = await _client.GetCurrentNamespace();
+        if (pki.Status.Namespace == null)
+        {
+            pki.Status.Namespace = await _client.GetCurrentNamespace();
+            await _client.UpdateStatus(pki);
+        }
+
+        var @namespace = pki.Status.Namespace!;
 
         await UpsertServiceAccount(pki, @namespace);
         await UpsertRole(pki, @namespace);

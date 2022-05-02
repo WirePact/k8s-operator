@@ -1,8 +1,10 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace WirePact.Operator;
+namespace Operator;
 
+// Until envoy supports simple building of their proto files, we have to
+// statically generate the config (and hope that it works).
 internal static class EnvoyConfig
 {
     public static (string Config, string ConfigHash) Bootstrap(
@@ -13,6 +15,12 @@ internal static class EnvoyConfig
         int translatorEgressPort)
     {
         var config = $@"
+admin:
+  access_log:
+    - name: envoy.access_loggers.stdout
+      typed_config:
+        '@type': type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog
+
 static_resources:
   listeners:
     - name: ingress_listener
@@ -50,8 +58,12 @@ static_resources:
                       grpc_service:
                         envoy_grpc:
                           cluster_name: auth_translator_ingress
+                        timeout: 1s
                       include_peer_certificate: true
                   - name: envoy.filters.http.router
+                    typed_config:
+                      '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
     - name: egress_listener
       address:
         socket_address:
@@ -87,6 +99,7 @@ static_resources:
                       grpc_service:
                         envoy_grpc:
                           cluster_name: auth_translator_egress
+                        timeout: 1s
                       include_peer_certificate: true
                   - name: envoy.filters.http.dynamic_forward_proxy
                     typed_config:
@@ -95,17 +108,20 @@ static_resources:
                         name: dynamic_forward_proxy_cache_config
                         dns_lookup_family: V4_ONLY
                         typed_dns_resolver_config:
-                          name: envoy.network.dns_resolver.dns_resolution_config
+                          name: envoy.network.dns_resolver.cares
                           typed_config:
-                            '@type': type.googleapis.com/envoy.config.core.v3.DnsResolutionConfig
+                            '@type': type.googleapis.com/envoy.extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig
                             resolvers:
                               - socket_address:
                                   address: '8.8.8.8'
                                   port_value: 53
+                            use_resolvers_as_fallback: true
                             dns_resolver_options:
                               use_tcp_for_dns_lookups: true
                               no_default_search_domain: true
                   - name: envoy.filters.http.router
+                    typed_config:
+                      '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
 
   clusters:
     - name: target_service
@@ -120,6 +136,7 @@ static_resources:
                     socket_address:
                       address: 127.0.0.1
                       port_value: {appPort}
+
     - name: auth_translator_ingress
       connect_timeout: 0.25s
       type: STRICT_DNS
@@ -137,6 +154,7 @@ static_resources:
                     socket_address:
                       address: 127.0.0.1
                       port_value: {translatorIngressPort}
+
     - name: auth_translator_egress
       connect_timeout: 0.25s
       type: STRICT_DNS
@@ -152,8 +170,9 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: 127.0.0.1
+                      address: host.docker.internal
                       port_value: {translatorEgressPort}
+
     - name: dynamic_forward_proxy_cluster
       lb_policy: CLUSTER_PROVIDED
       cluster_type:
@@ -164,13 +183,14 @@ static_resources:
             name: dynamic_forward_proxy_cache_config
             dns_lookup_family: V4_ONLY
             typed_dns_resolver_config:
-              name: envoy.network.dns_resolver.dns_resolution_config
+              name: envoy.network.dns_resolver.cares
               typed_config:
-                '@type': type.googleapis.com/envoy.config.core.v3.DnsResolutionConfig
+                '@type': type.googleapis.com/envoy.extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig
                 resolvers:
                   - socket_address:
                       address: '8.8.8.8'
                       port_value: 53
+                use_resolvers_as_fallback: true
                 dns_resolver_options:
                   use_tcp_for_dns_lookups: true
                   no_default_search_domain: true

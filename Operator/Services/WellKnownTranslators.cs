@@ -23,7 +23,7 @@ public class WellKnownTranslators : TimedService
         _client = client;
     }
 
-    protected override async void Execute(object? _)
+    protected override async void Execute()
     {
         _logger.LogDebug("Check for well-known translators");
         var translators = await _client.List<V1Alpha1CredentialTranslator>();

@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DotnetKubernetesClient;
+﻿using DotnetKubernetesClient;
 using k8s;
 using k8s.Models;
 using KubeOps.Operator.Controller;
 using KubeOps.Operator.Controller.Results;
 using KubeOps.Operator.Entities.Extensions;
 using KubeOps.Operator.Rbac;
-using Microsoft.Extensions.Logging;
-using WirePact.Operator.Entities;
+using Operator.Entities;
 
-namespace WirePact.Operator.Controller;
+namespace Operator.Controller;
 
-/// <summary>
-/// Controller that updates deployments/services for mesh participants.
-/// </summary>
-[EntityRbac(typeof(V1Alpha1CredentialTranslator), typeof(V1Alpha1Pki), Verbs = RbacVerb.Get)]
+[EntityRbac(typeof(V1Alpha1CredentialTranslator), Verbs = RbacVerb.Get)]
+[EntityRbac(typeof(V1Alpha1Pki), Verbs = RbacVerb.List)]
 [EntityRbac(
     typeof(V1Deployment),
     typeof(V1Service),
@@ -33,23 +26,17 @@ public class ParticipantController : IResourceController<V1Alpha1MeshParticipant
     private const string EnvoyContainerName = "wirepact-envoy";
     private const string TranslatorContainerName = "wirepact-translator";
     private const string ConfigVolumeName = "wirepact-envoy-config";
-    private const string EnvoyImage = "envoyproxy/envoy-alpine:v1.20-latest";
+    private const string EnvoyImage = "envoyproxy/envoy:v1.22-latest";
 
     private readonly ILogger<ParticipantController> _logger;
     private readonly IKubernetesClient _client;
 
-    /// <summary>
-    /// Ctor.
-    /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="client"></param>
     public ParticipantController(ILogger<ParticipantController> logger, IKubernetesClient client)
     {
         _logger = logger;
         _client = client;
     }
 
-    /// <inheritdoc />
     public async Task<ResourceControllerResult?> ReconcileAsync(V1Alpha1MeshParticipant participant)
     {
         _logger.LogInformation(
@@ -123,7 +110,6 @@ public class ParticipantController : IResourceController<V1Alpha1MeshParticipant
         return null;
     }
 
-    /// <inheritdoc />
     public async Task DeletedAsync(V1Alpha1MeshParticipant participant)
     {
         // remove all additions from the deployment
@@ -275,13 +261,13 @@ public class ParticipantController : IResourceController<V1Alpha1MeshParticipant
 
     private async Task<string> PkiAddress()
     {
-        var pki = await _client.Get<V1Alpha1Pki>("wirepact-pki");
-        if (pki == null)
+        var pki = await _client.List<V1Alpha1Pki>();
+        if (pki == null || !pki.Any())
         {
             throw new Exception("PKI must not be null");
         }
 
-        return $"http://{pki.Status.DnsAddress}";
+        return $"http://{pki.First().Status.DnsAddress}";
     }
 
     private async Task CheckDeployment(
@@ -316,7 +302,7 @@ public class ParticipantController : IResourceController<V1Alpha1MeshParticipant
                         .Concat(
                             new[]
                             {
-                                new V1EnvVar("COMMON_NAME", $"{participant.Spec.Translator}-{participant.Name()}"),
+                                new V1EnvVar("NAME", $"{participant.Spec.Translator}-{participant.Name()}"),
                                 new V1EnvVar("INGRESS_PORT", translatorIngressPort.ToString()),
                                 new V1EnvVar("EGRESS_PORT", translatorEgressPort.ToString()),
                                 new V1EnvVar("PKI_ADDRESS", pkiAddress),
@@ -324,7 +310,7 @@ public class ParticipantController : IResourceController<V1Alpha1MeshParticipant
                         .ToList(),
                 });
             _logger.LogDebug(
-                @"Added translator container with common name ""{common_name}"", ingress port ""{ingressPort}"", egress port ""{egressPort}"" and pki address ""{pkiAddress}"".",
+                @"Added translator container with name ""{name}"", ingress port ""{ingressPort}"", egress port ""{egressPort}"" and pki address ""{pkiAddress}"".",
                 $"{participant.Spec.Translator}-{participant.Name()}",
                 translatorIngressPort.ToString(),
                 translatorEgressPort.ToString(),
@@ -339,7 +325,7 @@ public class ParticipantController : IResourceController<V1Alpha1MeshParticipant
             translatorContainer.Image = translator.Spec.Image;
             deploymentUpdated |= translatorContainer.Image != translator.Spec.Image;
             deploymentUpdated |= translatorContainer.EnsureEnvVar(
-                "COMMON_NAME",
+                "NAME",
                 $"{participant.Spec.Translator}-{participant.Name()}");
             deploymentUpdated |= translatorContainer.EnsureEnvVar("INGRESS_PORT", translatorIngressPort.ToString());
             deploymentUpdated |= translatorContainer.EnsureEnvVar("EGRESS_PORT", translatorEgressPort.ToString());
@@ -460,7 +446,7 @@ public class ParticipantController : IResourceController<V1Alpha1MeshParticipant
             }
         }
 
-        // check if all other contains have the HTTP_PROXY env variable
+        // check if all other containers have the HTTP_PROXY env variable
         foreach (var container in deployment.Spec.Template.Spec.Containers.Where(
                      c => c.Name != TranslatorContainerName &&
                           c.Name != EnvoyContainerName &&

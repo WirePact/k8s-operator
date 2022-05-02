@@ -17,7 +17,7 @@ public class Pki : TimedService
         _client = client;
     }
 
-    protected override async void Execute(object? _)
+    protected override async void Execute()
     {
         _logger.LogDebug("Check for existing PKI.");
         var pkis = await _client.List<V1Alpha1Pki>();

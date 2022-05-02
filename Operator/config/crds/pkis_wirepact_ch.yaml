@@ -25,6 +25,9 @@ spec:
             properties:
               dnsAddress:
                 type: string
+              namespace:
+                nullable: true
+                type: string
             type: object
           spec:
             description: Specification of the kubernetes object.

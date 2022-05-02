@@ -11,9 +11,9 @@ builder.Services.AddKubernetesOperator(
             settings.EnableLeaderElection = false;
 #endif
         })
-// #if DEBUG
-//     .AddWebhookLocaltunnel()
-// #endif
+#if DEBUG
+    // .AddWebhookLocaltunnel()
+#endif
     ;
 
 builder.Services.AddHostedService<WellKnownTranslators>();

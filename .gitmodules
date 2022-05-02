@@ -16,3 +16,6 @@
 [submodule "external/opentelemetry"]
 	path = external/opentelemetry
 	url = git@github.com:open-telemetry/opentelemetry-proto.git
+[submodule "Envoy/envoyproxy"]
+	path = Envoy/envoyproxy
+	url = git@github.com:envoyproxy/envoy.git

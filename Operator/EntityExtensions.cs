@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using k8s.Models;
+﻿using k8s.Models;
 
-namespace WirePact.Operator;
+namespace Operator;
 
 internal static class EntityExtensions
 {

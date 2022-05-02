@@ -12,7 +12,7 @@ public abstract class TimedService  : IHostedService, IDisposable
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _timer = new Timer(Execute, null, TimeSpan.Zero, _interval);
+        _timer = new Timer(ExecuteFunction, null, TimeSpan.Zero, _interval);
         return Task.CompletedTask;
     }
 
@@ -24,5 +24,7 @@ public abstract class TimedService  : IHostedService, IDisposable
 
     public void Dispose() => _timer?.Dispose();
 
-    protected abstract void Execute(object? _);
+    protected abstract void Execute();
+
+    private void ExecuteFunction(object? _) => Execute();
 }
