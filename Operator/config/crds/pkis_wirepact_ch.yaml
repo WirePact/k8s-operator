@@ -21,7 +21,6 @@ spec:
       openAPIV3Schema:
         properties:
           status:
-            description: Status object for the entity.
             properties:
               dnsAddress:
                 type: string
@@ -30,7 +29,6 @@ spec:
                 type: string
             type: object
           spec:
-            description: Specification of the kubernetes object.
             properties:
               image:
                 type: string

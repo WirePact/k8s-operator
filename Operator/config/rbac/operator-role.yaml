@@ -25,6 +25,15 @@ rules:
   - ''
   resources:
   - deployments
+  - events
+  verbs:
+  - create
+  - get
+  - list
+  - update
+- apiGroups:
+  - ''
+  resources:
   - services
   - configmaps
   - secrets
@@ -51,14 +60,11 @@ rules:
   - create
   - get
 - apiGroups:
-  - ''
+  - coordination.k8s.io
   resources:
-  - events
+  - leases
   verbs:
-  - create
-  - get
-  - list
-  - update
+  - '*'
 - apiGroups:
   - wirepact.ch
   resources:
