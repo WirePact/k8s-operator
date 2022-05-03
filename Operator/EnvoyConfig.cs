@@ -170,7 +170,7 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: host.docker.internal
+                      address: 127.0.0.1
                       port_value: {translatorEgressPort}
 
     - name: dynamic_forward_proxy_cluster
