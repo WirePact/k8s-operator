@@ -12,7 +12,7 @@
     <PackageReference Include="Grpc.Core" Version="2.46.6" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.63.0" />
     <PackageReference Include="Grpc.Net.Common" Version="2.63.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.64.0" PrivateAssets="All" />
+    <PackageReference Include="Grpc.Tools" Version="2.65.0" PrivateAssets="All" />
   </ItemGroup>
 
 <!--  <Target Name="Protobuf_Override" BeforeTargets="_Protobuf_CoreCompile">-->
